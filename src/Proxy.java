@@ -5,16 +5,25 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 @javax.servlet.annotation.WebServlet(name = "Proxy")
 public class Proxy extends javax.servlet.http.HttpServlet {
     private static final int BUFFER_SIZE = 4096;
+    Properties prop;
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) {
 
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws IOException {
+        InputStream inputStream = getServletContext().getResourceAsStream("/WEB-INF/resources/proxy.properties");
+        prop = new Properties();
+        prop.load(inputStream);
+        System.out.println("Darshan: "+prop.getProperty("name"));
+
+
+
         String center = request.getParameter("center");
         String zoom = request.getParameter("zoom");
 
