@@ -20,15 +20,13 @@ public class Proxy extends javax.servlet.http.HttpServlet {
         InputStream inputStream = getServletContext().getResourceAsStream("/WEB-INF/resources/proxy.properties");
         prop = new Properties();
         prop.load(inputStream);
-        System.out.println("Darshan: "+prop.getProperty("name"));
-
-
+        System.out.println("path: "+prop.getProperty("path"));
 
         String center = request.getParameter("center");
         String zoom = request.getParameter("zoom");
 
-        String fileName = center +"_" +zoom+".png";
-        String directoryName = getServletContext().getRealPath("/") + "download"+File.separator;
+        String fileName = center+".png";
+        String directoryName = prop.getProperty("path")+zoom+File.separator;
 
         File mapTile = fileCreation(directoryName, fileName);
 
@@ -55,11 +53,12 @@ public class Proxy extends javax.servlet.http.HttpServlet {
         fin.close();
         bout.close();
         out.close();
+        inputStream.close();
     }
 
     private void downloadTile(String center, String zoom, File fileName) {
         try {
-            URL url = new URL("https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=" + center + "&zoom=" + zoom + "&size=512x512&key=XXXXXXXXXX");
+            URL url = new URL("https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=" + center + "&zoom=" + zoom + "&size=512x512&key=AIzaSyBZu_poSir6dvhp4PxUPhOcZYMHrlYLldQ");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("GET");
@@ -88,10 +87,10 @@ public class Proxy extends javax.servlet.http.HttpServlet {
     private File fileCreation(String directoryName, String fileName) {
         File directory = new File(directoryName);
         if (!directory.exists()){
-            directory.mkdir();
+            directory.mkdirs();
         }
         File imageDest = new File(directory.getAbsoluteFile() + "/" + fileName);
-
+        System.out.println("Image Destination : "+imageDest.getAbsolutePath());
         return imageDest;
     }
 
