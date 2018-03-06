@@ -58,7 +58,7 @@ public class Proxy extends javax.servlet.http.HttpServlet {
 
     private void downloadTile(String center, String zoom, File fileName) {
         try {
-            URL url = new URL("https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=" + center + "&zoom=" + zoom + "&size=512x512&key=AIzaSyBZu_poSir6dvhp4PxUPhOcZYMHrlYLldQ");
+            URL url = new URL("https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=" + center + "&zoom=" + zoom + "key");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("GET");
